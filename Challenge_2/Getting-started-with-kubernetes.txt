@@ -1,0 +1,78 @@
+LAB:  Getting Started with GKE
+
+NOTE
+">>" SIGNIFIES THE BEGINNING OF A NEW TASK &
+"**" SIGNIFIES ADDITIONAL INFORMATION
+
+
+>>      Overview
+        In this lab, you create a Google Kubernetes Engine cluster containing several containers, each containing a web 
+        server. You place a load balancer in front of the cluster and view its contents.
+
+
+>>      Objectives
+        In this lab, you learn how to perform the following tasks:
+(1)     Provision a Kubernetes cluster using Kubernetes Engine.
+(2)     Deploy and manage Docker containers using kubectl.
+
+
+>> Task 1: 
+a)     Sign in to the Google Cloud Platform (GCP) Console
+
+
+>> Task 2: 
+a)     Confirm that needed APIs are enabled
+                ** Kubernetes Engine API
+                ** Container Registry API
+
+                gcloud services enable container.googleapis.com 
+                gcloud services enable containerregistry.googleapis.com
+
+b)     place the zone that Qwiklabs assigned you to into an environment variable called MY_ZONE
+
+                gcloud config set project qwiklabs-gcp-02-5b457251fc54
+                export MY_ZONE="us-central1-a"
+
+c)     Start a Kubernetes cluster managed by Kubernetes Engine. Name the cluster webfrontend and configure it to run 2 nodes
+        
+                gcloud container clusters create webfrontend --zone $MY_ZONE --num-nodes 2
+
+d)     check your installed version of Kubernetes
+
+                kubectl version
+
+e)     View your running nodes in the GCP Console
+
+                kubectl get nodes
+
+f)     launch a single instance of the nginx container
+
+                kubectl create deploy nginx --image=nginx:1.17.10
+
+        ** Note: If you see any deprecation warning about future version you can simply ignore it for now and can proceed further.
+
+g)     View the pod running the nginx container
+
+                kubectl get pods
+
+h)     Expose the nginx container to the Internet
+
+                        
+
+i)     View the new service
+
+                kubectl get services
+
+j)     Scale up the number of pods running on your service
+
+                kubectl scale deployment nginx --replicas 3
+
+k)     Confirm that Kubernetes has updated the number of pods
+
+                kubectl get pods
+
+l)     Confirm that your external IP address has not changed
+
+                kubectl get services
+
+
